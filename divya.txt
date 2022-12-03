@@ -1,0 +1,87 @@
+(base) PS C:\Users\devik> python
+Python 3.9.13 (main, Aug 25 2022, 23:51:50) [MSC v.1916 64 bit (AMD64)] :: Anaconda, Inc. on win32
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import mysql.connector
+>>> mydb=mysql.connector.connect(host="localhost",user="root",password="")
+>>> mycursor=mydb.cursor()
+>>> mycursor.execute("create database employee789")
+>>> mycursor=mydb.cursor()
+>>> mycursor.execute("show databases")
+>>> for x in mycursor:
+...     print(x)
+...
+('cs',)
+('customer',)
+('customer2',)
+('divya',)
+('employee',)
+('employee76',)
+('employee789',)
+('harshitha',)
+('information_schema',)
+('mydatabase',)
+('mydatabase1',)
+('mysql',)
+('performance_schema',)
+('phpmyadmin',)
+('test',)
+>>> mydb=mysql.connector.connect(host="localhost",user="root",password="",database="employee789")
+>>> mycursor=mydb.cursor()
+>>> mycursor.execute("create table employee123(name varchar(255),address varchar(200),id varchar(20),salary varchar(30),dept varchar(100),joiningdate varchar(30),ph varchar(20))")
+>>> mycursor=mydb.cursor()
+>>> mycursor.execute("show tables")
+>>> for x in mycursor:
+...     print(x)
+...
+('employee123',)
+>>> mycursor=mydb.cursor()
+>>> sql="insert into employee123(name,address,id,salary,dept,joiningdate,ph)values('john','highway','21','10000','cs','1
+2-1-2015','987654321')"
+>>> mycursor.execute(sql)
+>>> mydb.commit()
+>>> print(mycursor.rowcount,"record inserted.")
+1 record inserted.
+>>> mycursor=mydb.cursor()
+>>> mycursor=mydb.cursor()
+>>> sql="insert into employee123(name,address,id,salary,dept,joiningdate,ph)values(%s,%s,%s,%s,%s,%s,%s)"
+>>> val=[
+... ('peter','lowstreet','4','12000','civil','12-2-2016','879654321'),
+... ('amy','apple st','6','15000','EC','12-2-2017','879604301'),
+... ('hannah','mountain','8','17000','EE','12-2-2018','895504301'),
+... ('susan','one way','10','20000','cs','12-2-2019','894504312'),
+... ]
+>>> mycursor.executemany(sql,val)
+>>> mydb.commit()
+>>> print(mycursor.rowcount,"was inserted.")
+13 was inserted.
+>>> mydb=mysql.connector.connect(
+... host="localhost",
+... user="root",
+... password="",
+... database="employee789"
+... )
+>>> mycursor=mydb.cursor()
+>>> mycursor.execute("select * from employee123")
+>>> myresult=mycursor.fetchall()
+>>> for x in myresult:
+...     print(x)
+...
+('john', 'highway', '21', '10000', 'cs', '12-1-2015', '987654321')
+('peter', 'lowstreet', '4', '12000', 'civil', '12-2-2016', '879654321')
+('amy', 'apple st', '6', '15000', 'EC', '12-2-2017', '879604301')
+('hannah', 'mountain', '8', '17000', 'EE', '12-2-2018', '895504301')
+('susan', 'one way', '10', '20000', 'cs', '12-2-2019', '894504312')
+>>> mydb=mysql.connector.connect(
+... host="localhost",
+... user="root",
+... password="",
+... database="employee789"
+... )
+>>> mycursor=mydb.cursor()
+>>> sql="select * from employee123 WHERE address='mountain'"
+>>> mycursor.execute(sql)
+>>> myresult=mycursor.fetchall()
+>>> for x in myresult:
+...     print(x)
+...
+('hannah', 'mountain', '8', '17000', 'EE', '12-2-2018', '895504301')
